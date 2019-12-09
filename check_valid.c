@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkina <rkina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 17:29:25 by rkina             #+#    #+#             */
-/*   Updated: 2019/12/06 22:49:30 by rkina            ###   ########.fr       */
+/*   Updated: 2019/12/09 16:40:30 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
 static void		check_el(char *el)
 {

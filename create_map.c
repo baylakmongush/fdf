@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 17:32:48 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/08 20:57:27 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/09 18:19:20 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ static int	ft_found_min(int str_min_count_fd[3])
 	return (str_min_count_fd[1]);
 }
 
-void		ft_createmap(fdf_t **map_struct, char *file)
+/*void		ft_createmap(fdf_t **map_struct, char *file)
 {
 	int		**map;
 	char	*line;
@@ -166,4 +166,18 @@ void		ft_createmap(fdf_t **map_struct, char *file)
 	}
 	close(str_min_count_fd[3]);
 	ft_makestruct(map_struct, map, str_min_count_fd[1], str_min_count_fd[0]);
+}*/
+void		ft_createmap(fdf_t **map_struct, char *file)
+{
+	int		fd;
+	char	*line;
+	char	**map;
+
+	fd = open(file, O_RDONLY);
+	while (get_next_line(fd, &line) > 0)
+	{
+		map = ft_strsplit(line, 32);
+		free(line);
+	}
+	printf("%c", map[0][0]);
 }
