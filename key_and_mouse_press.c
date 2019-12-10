@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_and_mouse_press.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 17:33:42 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/06 13:41:37 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/10 16:48:19 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int		key_press(int key_code, fdf_t *map)
 		map->move_x += 20;
 	if (key_code == 53)
 		exit(0);
-	if (key_code == 69)
+	if (key_code == 18)
 		map->zoom += 10;
-	if (key_code == 78 && map->zoom > 0)
+	if (key_code == 19 && map->zoom > 0)
 		map->zoom -= 10;
 	if (key_code == 4)
 		second_win(map);

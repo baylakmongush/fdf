@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkina <rkina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 17:29:25 by rkina             #+#    #+#             */
-/*   Updated: 2019/12/06 22:49:30 by rkina            ###   ########.fr       */
+/*   Updated: 2019/12/10 16:30:22 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static void		check_el(char *el)
 	{
 		if (el[i + 1] != '0' && el[i + 2] != 'x')
 			ft_err();
-		i += 2;
-		while ((el[i] >= '0' && el[i] <= '9') || (el[i] >= 'a' && el[i] <= 'f'))
+		i += 3;
+		while ((el[i] >= '0' && el[i] <= '9') || (el[i] >= 'A' && el[i] <= 'F') || (el[i] >= 'a' && el[i] <= 'f'))
 			i++;
 		if (el[i] != '\0')
 			ft_err();
@@ -35,7 +35,7 @@ static void		check_el(char *el)
 		ft_err();
 }
 
-static int		count_size(char *line)
+int		count_size(char *line)
 {
 	int			size;
 	char		**tmp;
