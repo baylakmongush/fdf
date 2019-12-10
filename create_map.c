@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/02 17:32:48 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/10 16:51:11 by baylak           ###   ########.fr       */
+/*   Created: 2019/12/10 18:13:38 by npetrell          #+#    #+#             */
+/*   Updated: 2019/12/10 21:20:16 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void			ft_copy(fdf_t **map_struct, char *file)
 	char		*line;
 	int			i;
 	int			j;
+	int			n;
 	int			fd;
+	int			count;
 	char		**tmp;
 
 	fd = open(file, O_RDONLY);
@@ -50,11 +52,25 @@ void			ft_copy(fdf_t **map_struct, char *file)
 		j = 0;
 		while (tmp[j])
 		{
-			(*map_struct)->map[i][j] = ft_atoi(tmp[j]);
+			n = 0;
+			count = 0;
+			(*map_struct)->map[i][j].list.z = ft_atoi(tmp[j]);
+			while (tmp[j][n])
+			{
+				if (tmp[j][n] == ',')
+				{
+					n++;
+					(*map_struct)->map[i][j].list.color = atoi_hex(&tmp[j][n]);
+					count++;
+				}
+				n++;
+			}
+			if (count == 0)
+				(*map_struct)->map[i][j].list.color = (*map_struct)->map[i][j].list.z ? 0x00ff00 : 0xffffff;
 			j++;
 		}
 		i++;
-		free(tmp);
+	//	free(tmp);
 		free(line);
 	}
 	close(fd);
@@ -66,7 +82,7 @@ void			ft_createmap(fdf_t **map_struct, char *file)
 	int			width;
 	int			fd;
 	char		*line;
-	int			**map;
+	tmap		**map;
 	int			j;
 
 	fd = open(file, O_RDONLY);
@@ -77,10 +93,10 @@ void			ft_createmap(fdf_t **map_struct, char *file)
 	width = count_size(line);
 	close(fd);
 	ft_makestruct(map_struct, width, height);
-	map = (int**)malloc(sizeof(int*) * height);
+	map = (tmap**)malloc(sizeof(tmap*) * height);
 	(*map_struct)->map = map;
 	j = 0;
 	while (j < (*map_struct)->width)
-		(*map_struct)->map[j++] = (int*)malloc(sizeof(int) * width);
+		(*map_struct)->map[j++] = (tmap*)malloc(sizeof(tmap) * width);
 	ft_copy(map_struct, file);
 }

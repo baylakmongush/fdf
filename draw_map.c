@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/02 17:30:52 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/10 16:52:57 by baylak           ###   ########.fr       */
+/*   Created: 2019/12/10 18:13:18 by npetrell          #+#    #+#             */
+/*   Updated: 2019/12/10 21:19:41 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
 static void		iso(int *x, int *y, int z)
 {
@@ -23,7 +24,7 @@ static void		iso(int *x, int *y, int z)
 	*y = -z + (previous_x + previous_y) * sin(0.523599);
 }
 
-static void		draw_pix(int x1, int y1, int x2, int y2, fdf_t *map)
+static void		draw_pix(int x1, int y1, int x2, int y2, fdf_t *map, int color1, int color2)
 {
 	int			delta_x_y[2];
 	int			sign_x_y[2];
@@ -34,10 +35,10 @@ static void		draw_pix(int x1, int y1, int x2, int y2, fdf_t *map)
 	sign_x_y[0] = x1 < x2 ? 1 : -1;
 	sign_x_y[1] = y1 < y2 ? 1 : -1;
 	error1_2[0] = delta_x_y[0] - delta_x_y[1];
-	mlx_pixel_put(map->mlx_ptr, map->window, x2, y2, map->color);
+	mlx_pixel_put(map->mlx_ptr, map->window, x2, y2, color2);
 	while ((x1 - x2) || (y1 - y2))
 	{
-		mlx_pixel_put(map->mlx_ptr, map->window, x1, y1, map->color);
+		mlx_pixel_put(map->mlx_ptr, map->window, x1, y1, color1);
 		error1_2[1] = error1_2[0] * 2;
 		if (error1_2[1] > -delta_x_y[1])
 		{
@@ -57,21 +58,24 @@ void			draw_line(int x1, int y1, int x2, int y2, fdf_t *map_struct)
 	int			z1;
 	int			z2;
 	int			max;
+	int			color1;
+	int			color2;
 
-	z1 = (map_struct->map[y1][x1]);
-	z2 = (map_struct->map[y2][x2]);
+	z1 = map_struct->map[y1][x1].list.z * map_struct->zoom;
+	z2 = map_struct->map[y2][x2].list.z * map_struct->zoom;
+	color1 = map_struct->map[y1][x1].list.color;
+	color2 = map_struct->map[y2][x2].list.color;
 	x1 *= map_struct->zoom;
 	y1 *= map_struct->zoom;
 	x2 *= map_struct->zoom;
 	y2 *= map_struct->zoom;
-	map_struct->color = (z1 || z2) ? 0x800080 : 0xffffff;
 	iso(&x1, &y1, z1);
 	iso(&x2, &y2, z2);
 	x1 += map_struct->move_x;
 	y1 += map_struct->move_y;
 	x2 += map_struct->move_x;
 	y2 += map_struct->move_y;
-	draw_pix(x1, y1, x2, y2, map_struct);
+	draw_pix(x1, y1, x2, y2, map_struct, color1, color2);
 }
 
 void			draw_map(fdf_t *map_struct)
