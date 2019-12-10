@@ -6,7 +6,7 @@
 /*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 17:29:25 by rkina             #+#    #+#             */
-/*   Updated: 2019/12/10 16:30:22 by baylak           ###   ########.fr       */
+/*   Updated: 2019/12/10 16:54:20 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void		check_el(char *el)
 		ft_err();
 }
 
-int		count_size(char *line)
+int				count_size(char *line)
 {
 	int			size;
 	char		**tmp;

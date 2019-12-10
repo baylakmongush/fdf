@@ -6,7 +6,7 @@
 /*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 17:33:42 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/10 16:48:19 by baylak           ###   ########.fr       */
+/*   Updated: 2019/12/10 16:55:45 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,15 @@ void	second_win(fdf_t *map)
 int		key_press(int key_code, fdf_t *map)
 {
 	if (key_code == 125 || key_code == 1)
-		map->move_y += 20;
+		map->move_y += 10;
 	if (key_code == 126 || key_code == 13)
-		map->move_y -= 20;
+		map->move_y -= 10;
 	if (key_code == 123 || key_code == 0)
-		map->move_x -= 20;
+		map->move_x -= 10;
 	if (key_code == 124 || key_code == 2)
-		map->move_x += 20;
+		map->move_x += 10;
 	if (key_code == 53)
 		exit(0);
-	if (key_code == 18)
-		map->zoom += 10;
-	if (key_code == 19 && map->zoom > 0)
-		map->zoom -= 10;
 	if (key_code == 4)
 		second_win(map);
 	draw_map(map);

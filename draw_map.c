@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 17:30:52 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/02 19:15:57 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/10 16:52:57 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void		iso(int *x, int *y, int z)
 
 	previous_x = *x;
 	previous_y = *y;
-	*x = (previous_x - previous_y) * cos(0.5);
-	*y = -z + (previous_x + previous_y) * sin(0.5);
+	*x = (previous_x - previous_y) * cos(0.523599);
+	*y = -z + (previous_x + previous_y) * sin(0.523599);
 }
 
 static void		draw_pix(int x1, int y1, int x2, int y2, fdf_t *map)
@@ -58,10 +58,12 @@ void			draw_line(int x1, int y1, int x2, int y2, fdf_t *map_struct)
 	int			z2;
 	int			max;
 
-	z1 = (map_struct->map[y1 / map_struct->zoom]
-	[x1 / map_struct->zoom]) * map_struct->zoom;
-	z2 = map_struct->map[y2 / map_struct->zoom]
-	[x2 / map_struct->zoom] * map_struct->zoom;
+	z1 = (map_struct->map[y1][x1]);
+	z2 = (map_struct->map[y2][x2]);
+	x1 *= map_struct->zoom;
+	y1 *= map_struct->zoom;
+	x2 *= map_struct->zoom;
+	y2 *= map_struct->zoom;
 	map_struct->color = (z1 || z2) ? 0x800080 : 0xffffff;
 	iso(&x1, &y1, z1);
 	iso(&x2, &y2, z2);
@@ -86,11 +88,9 @@ void			draw_map(fdf_t *map_struct)
 		while (i < map_struct->width)
 		{
 			if (i < map_struct->width - 1)
-				draw_line(i * map_struct->zoom, j * map_struct->zoom,
-				(i + 1) * map_struct->zoom, j * map_struct->zoom, map_struct);
+				draw_line(i, j, i + 1, j, map_struct);
 			if (j < map_struct->height - 1)
-				draw_line(i * map_struct->zoom, j * map_struct->zoom,
-				i * map_struct->zoom, (j + 1) * map_struct->zoom, map_struct);
+				draw_line(i, j,	i, j + 1, map_struct);
 			i++;
 		}
 		j++;
