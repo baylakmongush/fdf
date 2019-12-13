@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:43 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/10 18:13:45 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/13 15:44:55 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int				count_size(char *line)
 	while (tmp[size])
 	{
 		check_el(tmp[size]);
-		free(tmp[size]);
+	//	free(tmp[size]);
 		size++;
 	}
-	free(tmp);
+//	free(tmp);
 	return (size);
 }
 

@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:28 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/10 21:05:12 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/13 15:13:47 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ int		key_press(int key_code, fdf_t *map)
 int		mouse_press(int button, int x, int y, fdf_t *map)
 {
 	if (button == 1 && x > 10 && x < 30 && y > 10 && y < 30)
-		map->window1 = mlx_new_window(map->mlx_ptr, 500, 500, "FDF");
+		second_win(map);
+	if (button == 4 && x > 0 && x < 1000 && y > 0 && y < 1000)
+		map->zoom += 10;
+	if (button == 5)
+		map->zoom -= 10;
 	return (0);
 }

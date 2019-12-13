@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:38 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/10 21:20:16 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/13 17:19:11 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,10 @@ void			ft_copy(fdf_t **map_struct, char *file)
 				}
 				n++;
 			}
-			if (count == 0)
-				(*map_struct)->map[i][j].list.color = (*map_struct)->map[i][j].list.z ? 0x00ff00 : 0xffffff;
 			j++;
 		}
 		i++;
-	//	free(tmp);
+		free(tmp);
 		free(line);
 	}
 	close(fd);
@@ -82,7 +80,6 @@ void			ft_createmap(fdf_t **map_struct, char *file)
 	int			width;
 	int			fd;
 	char		*line;
-	tmap		**map;
 	int			j;
 
 	fd = open(file, O_RDONLY);
@@ -91,10 +88,10 @@ void			ft_createmap(fdf_t **map_struct, char *file)
 	fd = open(file, O_RDONLY);
 	get_next_line(fd, &line);
 	width = count_size(line);
+	free(line);
 	close(fd);
 	ft_makestruct(map_struct, width, height);
-	map = (tmap**)malloc(sizeof(tmap*) * height);
-	(*map_struct)->map = map;
+	(*map_struct)->map = (tmap**)malloc(sizeof(tmap*) * height);
 	j = 0;
 	while (j < (*map_struct)->width)
 		(*map_struct)->map[j++] = (tmap*)malloc(sizeof(tmap) * width);

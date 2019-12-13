@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:18 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/10 21:19:41 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/13 17:18:53 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void		iso(int *x, int *y, int z)
 	*y = -z + (previous_x + previous_y) * sin(0.523599);
 }
 
-static void		draw_pix(int x1, int y1, int x2, int y2, fdf_t *map, int color1, int color2)
+static void		draw_pix(int x1, int y1, int x2, int y2, fdf_t *map)
 {
 	int			delta_x_y[2];
 	int			sign_x_y[2];
@@ -35,10 +35,10 @@ static void		draw_pix(int x1, int y1, int x2, int y2, fdf_t *map, int color1, in
 	sign_x_y[0] = x1 < x2 ? 1 : -1;
 	sign_x_y[1] = y1 < y2 ? 1 : -1;
 	error1_2[0] = delta_x_y[0] - delta_x_y[1];
-	mlx_pixel_put(map->mlx_ptr, map->window, x2, y2, color2);
+	mlx_pixel_put(map->mlx_ptr, map->window, x2, y2, map->color);
 	while ((x1 - x2) || (y1 - y2))
 	{
-		mlx_pixel_put(map->mlx_ptr, map->window, x1, y1, color1);
+		mlx_pixel_put(map->mlx_ptr, map->window, x1, y1, map->color);
 		error1_2[1] = error1_2[0] * 2;
 		if (error1_2[1] > -delta_x_y[1])
 		{
@@ -63,8 +63,9 @@ void			draw_line(int x1, int y1, int x2, int y2, fdf_t *map_struct)
 
 	z1 = map_struct->map[y1][x1].list.z * map_struct->zoom;
 	z2 = map_struct->map[y2][x2].list.z * map_struct->zoom;
-	color1 = map_struct->map[y1][x1].list.color;
-	color2 = map_struct->map[y2][x2].list.color;
+	map_struct->color = (z1 || z2) ? 0x800080 : 0xffffff;
+	if (map_struct->map[y1][x1].list.color > 0 || map_struct->map[y2][x2].list.color > 0)
+		map_struct->color = map_struct->map[y1][x1].list.color;
 	x1 *= map_struct->zoom;
 	y1 *= map_struct->zoom;
 	x2 *= map_struct->zoom;
@@ -75,7 +76,7 @@ void			draw_line(int x1, int y1, int x2, int y2, fdf_t *map_struct)
 	y1 += map_struct->move_y;
 	x2 += map_struct->move_x;
 	y2 += map_struct->move_y;
-	draw_pix(x1, y1, x2, y2, map_struct, color1, color2);
+	draw_pix(x1, y1, x2, y2, map_struct);
 }
 
 void			draw_map(fdf_t *map_struct)
