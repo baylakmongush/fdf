@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 15:52:44 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/14 17:25:23 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/14 19:18:13 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int			main(int argc, char **argv)
 		ft_createmap(&map_struct, argv[1]);
 		map_struct->mlx_ptr = mlx_init();
 		map_struct->window = mlx_new_window(map_struct->mlx_ptr, 4000, 4000, "FDF");
+		map_struct->alpha = 0.523599;
 		map_struct->move_y = 100;
 		map_struct->move_x = 100;
 		map_struct->zoom = 1;

@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:28 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/14 17:23:03 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/14 19:18:12 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void	second_win(fdf_t *map)
 
 int		key_press(int key_code, fdf_t *map)
 {
+	if (key_code == 16)
+		map->rotate_y += 1;
+	if (key_code == 7)
+		map->rotate_x += 1;
 	if (key_code == 125 || key_code == 1)
 		map->move_y += 20;
 	if (key_code == 126 || key_code == 13)
@@ -49,6 +53,12 @@ int		key_press(int key_code, fdf_t *map)
 		map->zoom -= 5;
 	if (key_code == 4)
 		second_win(map);
+	if (key_code == 83)
+		map->alpha = 0;
+	if (key_code == 84)
+		map->alpha = 0.523599;
+	if (key_code == 85)
+		map->alpha = 7;	
 	mlx_clear_window(map->mlx_ptr, map->window);
 	draw_map(map);
 	mlx_string_put(map->mlx_ptr, map->window, 10, 10, 0xfff000, "HELP");

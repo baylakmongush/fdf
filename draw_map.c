@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:18 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/14 17:53:21 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/14 19:18:10 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,37 @@ int get_color(t_point current, t_point start, t_point end, t_point delta)
     return ((red << 16) | (green << 8) | blue);
 }*/
 
-static void		iso(int *x, int *y, int z)
+static void		iso(int *x, int *y, int z, double alpha)
 {
 	int			previous_x;
 	int			previous_y;
 
 	previous_x = *x;
 	previous_y = *y;
-	*x = (previous_x - previous_y) * cos(0.523599);
-	*y = -z + (previous_x + previous_y) * sin(0.523599);
+	*x = (previous_x - previous_y) * cos(alpha);
+	*y = -z + (previous_x + previous_y) * sin(alpha);
+}
+
+static void		rotate_x(int *y, int *z, int multi, double alpha)
+{
+	int			previous_y;
+	int			previous_z;
+
+	previous_y = *y;
+	previous_z = *z;
+	*y = previous_y * cos(multi * alpha) + previous_z * sin(multi * alpha);
+	*z = -previous_y * sin(multi * alpha) + previous_z * cos(multi * alpha);
+}
+
+static void		rotate_y(int *x, int *z, int multi, double alpha)
+{
+	int			previous_x;
+	int			previous_z;
+
+	previous_x = *x;
+	previous_z = *z;
+	*x = previous_x * cos(multi * alpha) + previous_z * sin(multi * alpha);
+	*z = -previous_x * sin(multi * alpha) + previous_z * cos(multi * alpha);
 }
 
 static void		draw_pix(int x1, int y1, int x2, int y2, fdf_t *map)
@@ -104,8 +126,15 @@ void			draw_line(int x1, int y1, int x2, int y2, fdf_t *map_struct)
 	y1 *= map_struct->zoom;
 	x2 *= map_struct->zoom;
 	y2 *= map_struct->zoom;
-	iso(&x1, &y1, z1);
-	iso(&x2, &y2, z2);
+	rotate_x(&y1, &z1, map_struct->rotate_x, map_struct->alpha);
+	rotate_x(&y2, &z2, map_struct->rotate_x, map_struct->alpha);
+	rotate_y(&x1, &z1, map_struct->rotate_y, map_struct->alpha);
+	rotate_y(&x2, &z2, map_struct->rotate_y, map_struct->alpha);
+	if (map_struct->alpha == 0.523599 || map_struct->alpha == 0)
+	{
+		iso(&x1, &y1, z1, map_struct->alpha);
+		iso(&x2, &y2, z2, map_struct->alpha);
+	}
 	x1 += map_struct->move_x;
 	y1 += map_struct->move_y;
 	x2 += map_struct->move_x;

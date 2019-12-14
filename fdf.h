@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:59 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/10 20:24:03 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/14 19:18:14 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ typedef struct	map
 typedef struct	fdf_l
 {
 	tmap		**map;
+	double		alpha;
+	int			rotate_x;
+	int 		rotate_y;
 	int			width;
 	int			height;
 	void		*mlx_ptr;
