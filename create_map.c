@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:38 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/13 17:19:11 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/14 17:24:42 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void			ft_copy(fdf_t **map_struct, char *file)
 	int			j;
 	int			n;
 	int			fd;
-	int			count;
 	char		**tmp;
 
 	fd = open(file, O_RDONLY);
@@ -49,26 +48,20 @@ void			ft_copy(fdf_t **map_struct, char *file)
 	while (get_next_line(fd, &line) > 0)
 	{
 		tmp = ft_strsplit(line, ' ');
-		j = 0;
-		while (tmp[j])
+		j = -1;
+		while (tmp[++j])
 		{
 			n = 0;
-			count = 0;
 			(*map_struct)->map[i][j].list.z = ft_atoi(tmp[j]);
 			while (tmp[j][n])
 			{
 				if (tmp[j][n] == ',')
-				{
-					n++;
-					(*map_struct)->map[i][j].list.color = atoi_hex(&tmp[j][n]);
-					count++;
-				}
+					(*map_struct)->map[i][j].list.color = atoi_hex(&tmp[j][n++]);
 				n++;
 			}
-			j++;
 		}
 		i++;
-		free(tmp);
+	//	free(tmp);
 		free(line);
 	}
 	close(fd);
@@ -93,7 +86,7 @@ void			ft_createmap(fdf_t **map_struct, char *file)
 	ft_makestruct(map_struct, width, height);
 	(*map_struct)->map = (tmap**)malloc(sizeof(tmap*) * height);
 	j = 0;
-	while (j < (*map_struct)->width)
+	while (j < (*map_struct)->height)
 		(*map_struct)->map[j++] = (tmap*)malloc(sizeof(tmap) * width);
 	ft_copy(map_struct, file);
 }

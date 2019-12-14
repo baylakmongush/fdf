@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:28 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/13 15:13:47 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/14 17:23:03 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ int		key_press(int key_code, fdf_t *map)
 	if (key_code == 53)
 		exit(0);
 	if (key_code == 69)
-		map->zoom += 10;
+		map->zoom += 5;
 	if (key_code == 78 && map->zoom > 0)
-		map->zoom -= 10;
+		map->zoom -= 5;
 	if (key_code == 4)
 		second_win(map);
-	draw_map(map);
 	mlx_clear_window(map->mlx_ptr, map->window);
+	draw_map(map);
 	mlx_string_put(map->mlx_ptr, map->window, 10, 10, 0xfff000, "HELP");
 	mlx_string_put(map->mlx_ptr, map->window, 60, 10, 0xfff000, "(Press 'H')");
 	return (0);
