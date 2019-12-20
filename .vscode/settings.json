@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "complex": "c",
-        "cmath": "c",
-        "__locale": "c"
-    }
-}
