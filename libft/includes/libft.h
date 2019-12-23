@@ -6,13 +6,13 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 13:50:13 by rkina             #+#    #+#             */
-/*   Updated: 2019/11/09 16:01:11 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/23 22:00:40 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 5
+# define BUFF_SIZE 1
 
 # include <string.h>
 # include <unistd.h>

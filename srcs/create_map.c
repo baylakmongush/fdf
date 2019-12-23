@@ -5,21 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/10 18:13:38 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/20 19:50:02 by npetrell         ###   ########.fr       */
+/*   Created: 2019/12/23 22:03:04 by npetrell          #+#    #+#             */
+/*   Updated: 2019/12/23 22:12:08 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../includes/fdf.h"
 
-void		ft_makestruct(fdf_t **map_struct, int width, int height)
+static void		ft_makestruct(fdf_t **map_struct, int width, int height)
 {
 	*map_struct = (fdf_t*)malloc(sizeof(fdf_t));
 	(*map_struct)->height = height;
 	(*map_struct)->width = width;
 }
 
-int				count_height(fd)
+static int		count_height(fd)
 {
 	char 		*line;
 	int			height;
@@ -33,7 +33,7 @@ int				count_height(fd)
 	return (height);
 }
 
-void			ft_copy(fdf_t **map_struct, char *file)
+static void		ft_copy(fdf_t **map_struct, char *file)
 {
 	char		*line;
 	int			i;
@@ -60,7 +60,7 @@ void			ft_copy(fdf_t **map_struct, char *file)
 			}
 		}
 		i++;
-	//	free(tmp);
+		free(tmp);
 		free(line);
 	}
 	close(fd);

@@ -6,7 +6,7 @@
 #    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/20 17:18:07 by npetrell          #+#    #+#              #
-#    Updated: 2019/12/20 20:16:53 by npetrell         ###   ########.fr        #
+#    Updated: 2019/12/23 20:42:55 by npetrell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ FRAM = -framework OpenGL -framework Appkit
 
 LFLAGS = -L $(LIBFT) -lft
 
-SRCS = ./main.c ./key_and_mouse_press.c ./draw_map.c ./check_valid.c ./atoi_hex.c ./create_map.c
+SRCS = ./main.c ./key_and_mouse_press.c ./draw_map.c ./check_valid.c \
+./atoi_hex.c ./create_map.c ./rotate.c \
 
 OBJECTS = $(SRCS:%.c=%.o)
 

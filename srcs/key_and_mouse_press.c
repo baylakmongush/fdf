@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   key_and_mouse_press.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkina <rkina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:28 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/17 15:56:34 by rkina            ###   ########.fr       */
+/*   Updated: 2019/12/23 22:12:16 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../includes/fdf.h"
 
 void	second_win(fdf_t *map)
 {
-	map->window1 = mlx_new_window(map->mlx_ptr, 800, 200, "HELP");
+	map->window1 = mlx_new_window(map->mlx_ptr, 800, 300, "HELP");
 	mlx_string_put(map->mlx_ptr, map->window1, 0, 0, 0xccffff,
 	"1. PRESS buttons 'UP', 'LEFT',");
 	mlx_string_put(map->mlx_ptr, map->window1, 310, 0, 0xccccff,
@@ -29,22 +29,26 @@ void	second_win(fdf_t *map)
 	"3. PRESS 'ESC', ");
 	mlx_string_put(map->mlx_ptr, map->window1, 160, 120, 0x9933cc,
 	"if you want to exit.");
+	mlx_string_put(map->mlx_ptr, map->window1, 0, 160, 0x800080,
+	"4. Press 'X' 'Y' 'Z', if you want to rotate.");
+	mlx_string_put(map->mlx_ptr, map->window1, 0, 200, 0xDA70D6,
+	"5. Press 'C', if you want to change color.");
+	mlx_string_put(map->mlx_ptr, map->window1, 0, 240, 0xffc0cb,
+	"6. Press '1', '2', '3', if you want to change projection.");
 }
 
-int		key_press(int key_code, fdf_t *map)
+void	move(int key_code, fdf_t *map)
 {
-	if (key_code == 8)
-	{
-		if (map->change_color == 3)
-			map->change_color = 0;
-		map->change_color += 1;
-	}
 	if (key_code == 6)
 		map->rotate_z += 1;
 	if (key_code == 16)
 		map->rotate_y += 1;
 	if (key_code == 7)
 		map->rotate_x += 1;
+	if (key_code == 69)
+		map->zoom += 5;
+	if (key_code == 78 && map->zoom > 0)
+		map->zoom -= 5;
 	if (key_code == 125 || key_code == 1)
 		map->move_y += 20;
 	if (key_code == 126 || key_code == 13)
@@ -53,14 +57,10 @@ int		key_press(int key_code, fdf_t *map)
 		map->move_x -= 20;
 	if (key_code == 124 || key_code == 2)
 		map->move_x += 20;
-	if (key_code == 53)
-		exit(0);
-	if (key_code == 69)
-		map->zoom += 5;
-	if (key_code == 78 && map->zoom > 0)
-		map->zoom -= 5;
-	if (key_code == 4)
-		second_win(map);
+}
+
+void	change_projection(int key_code, fdf_t *map)
+{
 	if (key_code == 83)
 	{
 		map->alpha = 0;
@@ -78,12 +78,29 @@ int		key_press(int key_code, fdf_t *map)
 	{
 		map->rotate_x = 0;
 		map->rotate_y = 0;
-		map->alpha = 7;	
+		map->alpha = 7;
 	}
+}
+
+int		key_press(int key_code, fdf_t *map)
+{
+	if (key_code == 8)
+	{
+		if (map->change_color == 3)
+			map->change_color = 0;
+		map->change_color += 1;
+	}
+	move(key_code, map);
+	change_projection(key_code, map);
+	if (key_code == 53)
+		exit(0);
+	if (key_code == 4)
+		second_win(map);
 	mlx_clear_window(map->mlx_ptr, map->window);
 	draw_map(map);
 	mlx_string_put(map->mlx_ptr, map->window, 10, 10, 0xfff000, "HELP");
-	mlx_string_put(map->mlx_ptr, map->window, 60, 10, 0xfff000, "(Press 'H')");
+	mlx_string_put(map->mlx_ptr, map->window, 60, 10, 0xfff000,
+	"(Press 'H' or Click HELP)");
 	return (0);
 }
 

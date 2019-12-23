@@ -5,85 +5,82 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/05 19:49:04 by rkina             #+#    #+#             */
-/*   Updated: 2019/12/08 16:15:10 by npetrell         ###   ########.fr       */
+/*   Created: 2019/09/24 15:39:27 by npetrell          #+#    #+#             */
+/*   Updated: 2019/12/23 21:57:41 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static t_list		*ft_getcurr(int fd, t_list **archive)
+t_list				*check_fd(const int fd, t_list **fd_lst)
 {
-	t_list *tmp;
+	t_list			*lst;
 
-	if (!archive)
-		return (NULL);
-	tmp = *archive;
-	while (tmp)
+	lst = *fd_lst;
+	while (lst)
 	{
-		if ((int)tmp->content_size == fd)
-			return (tmp);
-		tmp = tmp->next;
+		if ((int)(lst->content_size) == fd)
+			return (lst);
+		lst = lst->next;
 	}
-	tmp = ft_lstnew("", fd);
-	ft_lstadd(archive, tmp);
-	return (tmp);
+	lst = ft_lstnew("", fd);
+	ft_lstadd(fd_lst, lst);
+	return (lst);
 }
 
-static int			ft_read(const int fd, char **content)
+int					read_from_fd(const int fd, char **content)
 {
-	int				read_return;
+	char			buff[BUFF_SIZE + 1];
+	int				size_read;
 	char			*tmp;
-	char			buf[BUFF_SIZE + 1];
 
-	while ((read_return = read(fd, buf, BUFF_SIZE)))
+	while ((size_read = read(fd, buff, BUFF_SIZE)))
 	{
-		buf[read_return] = '\0';
-		tmp = *content;
-		if (!(*content = ft_strjoin(*content, buf)))
-			return (-1);
-		free(tmp);
-		if (ft_strchr(buf, '\n'))
+		buff[size_read] = '\0';
+		tmp = ft_strjoin(*content, buff);
+		free(*content);
+		*content = tmp;
+		if (ft_strchr(buff, '\n'))
 			break ;
 	}
-	return (read_return);
+	return (size_read);
 }
 
-static int			ft_linecpy(char **line, char *content, char c)
+int					count(char *str)
 {
 	int				i;
 
 	i = 0;
-	while (content[i] && content[i] != c)
+	while (str[i] && str[i] != '\n')
 		i++;
-	if (!(*line = ft_strndup(content, i)))
-		return (0);
 	return (i);
 }
 
 int					get_next_line(const int fd, char **line)
 {
-	size_t			read_return;
-	static t_list	*archive;
-	t_list			*current;
-	char			*tmp;
+	t_list			*lst;
+	static t_list	*fd_lst;
+	char			*content;
+	int				size_read;
+	char			buff[BUFF_SIZE];
 
-	if (fd < 0 || !line || (read(fd, 0, 0)) < 0 ||
-			(!(current = ft_getcurr(fd, &archive))))
+	if (fd < 0 || line == NULL || read(fd, buff, 0) < 0 || BUFF_SIZE < 0)
 		return (-1);
-	tmp = current->content;
-	read_return = ft_read(fd, &tmp);
-	current->content = tmp;
-	if (!read_return && !*tmp)
+	lst = check_fd(fd, &fd_lst);
+	content = lst->content;
+	size_read = read_from_fd(fd, &content);
+	lst->content = content;
+	if (size_read == 0 && (content == 0 || content[0] == '\0'))
 		return (0);
-	read_return = ft_linecpy(line, current->content, '\n');
-	tmp = current->content;
-	if (tmp[read_return] != '\0')
-	{
-		current->content = ft_strdup(&((current->content)[read_return + 1]));
-		free(tmp);
-	}
+	size_read = count(content);
+	content = lst->content;
+	*line = ft_strsub(lst->content, 0, size_read);
+	if (content[size_read] == '\0')
+		ft_strclr(content);
 	else
-		tmp[0] = '\0';
+	{
+		lst->content = ft_strdup((char*)lst->content + size_read + 1);
+		free(content);
+	}
 	return (1);
 }
