@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:43 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/23 22:12:33 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/23 23:03:05 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,27 @@ static void		check_file(char *file_name)
 		ft_err();
 }
 
-void			check_valid(char *file_name)
+int				check_valid(char *file_name)
 {
 	char		*line;
 	int			size;
 	int			next_size;
 	int			fd;
+	int			height;
 
 	check_file(file_name);
 	fd = open(file_name, O_RDONLY);
 	get_next_line(fd, &line);
 	size = count_size(line);
+	height = 1;
 	while (get_next_line(fd, &line) > 0)
 	{
 		next_size = count_size(line);
 		if (next_size != size)
 			ft_err();
+		height++;
 		free(line);
 	}
 	close(fd);
+	return (height);
 }

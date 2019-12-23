@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_map.c                                       :+:      :+:    :+:   */
+/*   ft_create_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 22:03:04 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/23 23:03:04 by npetrell         ###   ########.fr       */
+/*   Created: 2019/12/23 22:43:04 by npetrell          #+#    #+#             */
+/*   Updated: 2019/12/23 22:51:06 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ static void		ft_copy(fdf_t **map_struct, char *file)
 		j = -1;
 		while (tmp[++j])
 		{
-			n = -1;
+			n = 0;
 			(*map_struct)->map[i][j].list.z = ft_atoi(tmp[j]);
-			while (tmp[j][++n])
+			while (tmp[j][n])
 			{
 				if (tmp[j][n] == ',')
 					(*map_struct)->map[i][j].list.color = atoi_hex(&tmp[j][n++]);
+				n++;
 			}
 		}
 		i++;
@@ -59,7 +60,9 @@ void			ft_createmap(fdf_t **map_struct, char *file)
 	char		*line;
 	int			j;
 
-	height = check_valid(file);
+	fd = open(file, O_RDONLY);
+	height = check_valid(fd);
+	close(fd);
 	fd = open(file, O_RDONLY);
 	get_next_line(fd, &line);
 	width = count_size(line);
