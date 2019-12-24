@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:59 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/23 22:09:27 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/24 16:10:41 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <math.h>
 
-typedef	struct coords
+typedef	struct	coords
 {
 	int			x1;
 	int			y1;
@@ -29,8 +29,7 @@ typedef	struct coords
 	int			z2;
 }				coord;
 
-
-typedef	struct 	scolor
+typedef	struct	scolor
 {
 	int			color;
 	int			z;
@@ -39,14 +38,14 @@ typedef	struct 	scolor
 typedef struct	map
 {
 	tcolor		list;
-}				tmap;	
+}				tmap;
 
 typedef struct	fdf_l
 {
 	tmap		**map;
 	double		alpha;
 	int			rotate_x;
-	int 		rotate_y;
+	int			rotate_y;
 	int			rotate_z;
 	int			width;
 	int			height;
@@ -60,10 +59,11 @@ typedef struct	fdf_l
 	int			change_color;
 }				fdf_t;
 
-void			check_valid(char *file_name);
+int				check_valid(char *file_name);
 void			draw_line(coord xyz, fdf_t *map_struct);
 void			draw_map(fdf_t *map_struct);
 void			ft_createmap(fdf_t **map_struct, char *file);
+void			init_map(fdf_t **map_struct);
 int				key_press(int key_code, fdf_t *map);
 int				mouse_press(int button, int x, int y, fdf_t *map);
 int				atoi_hex(char *nb);
@@ -71,5 +71,7 @@ int				count_size(char *line);
 void			rotate_x(int *y, int *z, int multi, double alpha);
 void			rotate_y(int *x, int *z, int multi, double alpha);
 void			rotate_z(int *x, int *y, int multi, double alpha);
+void			ft_clear(tmap **map);
+void			ft_clear1(char **map);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:43 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/23 23:03:05 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/24 16:11:07 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int				count_size(char *line)
 		check_el(tmp[size]);
 		size++;
 	}
+//	ft_clear1(tmp);
 	return (size);
 }
 
@@ -69,6 +70,7 @@ int				check_valid(char *file_name)
 	fd = open(file_name, O_RDONLY);
 	get_next_line(fd, &line);
 	size = count_size(line);
+	free(line);
 	height = 1;
 	while (get_next_line(fd, &line) > 0)
 	{

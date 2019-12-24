@@ -6,22 +6,11 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 15:52:44 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/23 23:02:59 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/24 16:56:28 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-void		ft_clear(tmap **map)
-{
-	tmap	**tmp;
-
-	tmp = map;
-	while (map && *map)
-		free(*map++);
-	free(map);
-	map = NULL;
-}
 
 int			main(int argc, char **argv)
 {
@@ -44,8 +33,6 @@ int			main(int argc, char **argv)
 		0xfff000, "(Press 'H' or Click HELP)");
 		mlx_mouse_hook(map_struct->window, mouse_press, map_struct);
 		mlx_loop(map_struct->mlx_ptr);
-		ft_clear(map_struct->map);
-		free(map_struct);
 	}
 	else
 		ft_err();
