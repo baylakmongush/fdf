@@ -12,6 +12,17 @@
 
 #include "../includes/fdf.h"
 
+void		ft_clear(tmap **map)
+{
+	tmap	**tmp;
+
+	tmp = map;
+	while (map && *map)
+		free(*map++);
+	free(map);
+	map = NULL;
+}
+
 int			main(int argc, char **argv)
 {
 	fdf_t	*map_struct;
@@ -24,14 +35,7 @@ int			main(int argc, char **argv)
 		map_struct->mlx_ptr = mlx_init();
 		map_struct->window = mlx_new_window(map_struct->mlx_ptr, 1500,
 		1500, "FDF");
-		map_struct->alpha = 0.523599;
-		map_struct->move_y = 100;
-		map_struct->move_x = 100;
-		map_struct->rotate_x = 0;
-		map_struct->rotate_y = 0;
-		map_struct->rotate_z = 0;
-		map_struct->change_color = 0;
-		map_struct->zoom = 1;
+		init_map(&map_struct);
 		draw_map(map_struct);
 		mlx_key_hook(map_struct->window, key_press, map_struct);
 		mlx_string_put(map_struct->mlx_ptr, map_struct->window, 10, 10,
@@ -40,6 +44,8 @@ int			main(int argc, char **argv)
 		0xfff000, "(Press 'H' or Click HELP)");
 		mlx_mouse_hook(map_struct->window, mouse_press, map_struct);
 		mlx_loop(map_struct->mlx_ptr);
+		ft_clear(map_struct->map);
+		free(map_struct);
 	}
 	else
 		ft_err();
