@@ -6,11 +6,23 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 18:13:43 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/24 16:11:07 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:15:47 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+static void		*ft_arrdel(void **res)
+{
+	void		**tmp;
+
+	tmp = res;
+	while (res && *res)
+		free(*res++);
+	free(tmp);
+	tmp = NULL;
+	return (tmp);
+}
 
 static void		check_el(char *el)
 {
@@ -48,7 +60,7 @@ int				count_size(char *line)
 		check_el(tmp[size]);
 		size++;
 	}
-//	ft_clear1(tmp);
+	ft_arrdel((void**)tmp);
 	return (size);
 }
 

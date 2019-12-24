@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/23 22:03:04 by npetrell          #+#    #+#             */
-/*   Updated: 2019/12/24 16:56:32 by npetrell         ###   ########.fr       */
+/*   Updated: 2019/12/24 19:11:35 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ static void		ft_makestruct(fdf_t **map_struct, int width, int height)
 	*map_struct = (fdf_t*)malloc(sizeof(fdf_t));
 	(*map_struct)->height = height;
 	(*map_struct)->width = width;
+}
+
+static void		*ft_arrdel(void **res)
+{
+	void		**tmp;
+
+	tmp = res;
+	while (res && *res)
+		free(*res++);
+	free(tmp);
+	tmp = NULL;
+	return (tmp);
 }
 
 static void		ft_copy(fdf_t **map_struct, int fd)
@@ -41,9 +53,9 @@ static void		ft_copy(fdf_t **map_struct, int fd)
 					atoi_hex(&tmp[i[1]][i[2]++]);
 			}
 		}
+		ft_arrdel((void**)tmp);
 		i[0]++;
 		free(line);
-		ft_clear1(tmp);
 	}
 }
 
@@ -79,6 +91,6 @@ void			ft_createmap(fdf_t **map_struct, char *file)
 	while (j < (*map_struct)->height)
 		(*map_struct)->map[j++] = (tmap*)malloc(sizeof(tmap) * width);
 	fd = open(file, O_RDONLY);
-	ft_copy(map_struct, file);
+	ft_copy(map_struct, fd);
 	close(fd);
 }
