@@ -7,6 +7,7 @@ relief landscape using minilibx library and map with coords.
 2. cd fdf
 3. make
 4. ./fdf test_maps/"name of map"
+
 # Screenshots
 
  ![alt text](https://github.com/npetrelli/fdf/blob/master/1.png "1")
